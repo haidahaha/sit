@@ -7,14 +7,14 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="#">Stay in touch!</a>
+    <%= link_to root_path, class: "navbar-brand" do %>
+      <img src="https://dl.dropboxusercontent.com/u/6677368/Logo%20orca.fw.png" width="100" alt="orca" />
+    <% end %>
   </div>
 
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav navbar-right">
-      <li><%= link_to "Home", '#' %></li>
-      <li><%= link_to "About", '#' %></li> 
     </ul>
   </div><!-- /.navbar-collapse -->
 </nav>
