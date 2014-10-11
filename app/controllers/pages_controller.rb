@@ -89,6 +89,7 @@ class PagesController < ApplicationController
       client = EvernoteOAuth::Client.new(token: developer_token)
       note_store = client.note_store
     rescue Exception => e
+      puts e.errorCode
       puts e.message
       note_store = nil
     end
