@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  root 'pages#home'
-  
+  root 'pages#suggest'
+
   # get 'get_user_notes' => "pages#get_user_notes"
   # get 'login' => "pages#login"
   get 'login_dev' => "pages#login_dev"

@@ -1,7 +1,4 @@
 class PagesController < ApplicationController
-  def home
-  end
-
   def suggest
     @suggestions = params[:suggestions]
     @url = params[:url]
