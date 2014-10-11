@@ -57,7 +57,7 @@ class PagesController < ApplicationController
                       matrix = WordCompare.compare_sets(webpage_subjects, tags)
                       puts matrix
                       puts "-------"
-                      puts WordCompare.is_relevant(matrix,2)
+                      puts WordCompare.is_relevant(matrix,0.3)
                       puts "-------"
                       puts "#{name}"
                       puts "#{email}"
@@ -94,7 +94,10 @@ class PagesController < ApplicationController
       client = EvernoteOAuth::Client.new(token: developer_token)
       note_store = client.note_store
     rescue Exception => e
-      puts "Error with creating Note Store: #{e.message}"
+      puts "Error with creating Note Store: #{e.errorCode}"
+      if e.errorCode == 19
+        puts "Wait: #{e.rateLimitDuration}"
+      end
       note_store = nil
     end
     return note_store
