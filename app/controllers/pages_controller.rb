@@ -5,10 +5,16 @@ class PagesController < ApplicationController
   def suggest
     @suggestions = params[:suggestions]
     @url = params[:url]
+    
+    if @url and !@suggestions
+        redirect_to action: :login_dev, controller: :pages, url: @url
+    end
   end
 
   def login_dev
       url = params[:url]
+      webpage_subjects = get_subjects_from_weburl(url)
+
       note_store = get_note_store
       notebooks = note_store.listNotebooks
       contact = nil
@@ -52,6 +58,7 @@ class PagesController < ApplicationController
                   puts "#{email}"
                   puts "#{profile_image}"
                   puts "#{tags.join(", ")}"
+                  puts "Webpage: #{webpage_subjects.join(", ")}"
                   suggestions << {name: name, email: email, image: profile_image}
               rescue Exception => e
                   puts e.message
