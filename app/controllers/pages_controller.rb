@@ -63,6 +63,14 @@ class PagesController < ApplicationController
       redirect_to action: :suggest, suggestions: suggestions, url: url
   end
 
+  protected
+  
+  def get_subjects_from_weburl (url)
+      hashtags = Aylien.get_hashtags(url)
+      #Remove # from Hashtag and convert CamelCase to Space separated Nouns.
+      hashtags.map {|hashtag| hashtag[1..-1].gsub(/([a-z])([A-Z])/, '\1 \2')}
+  end
+  
   private
 
   def get_note_store
