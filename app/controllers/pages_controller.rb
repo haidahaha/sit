@@ -12,12 +12,11 @@ class PagesController < ApplicationController
   end
 
   def login_dev
-      url = params[:url]
-      webpage_subjects = get_subjects_from_weburl(url)
-
       suggestions = Array.new
       note_store = get_note_store
       if note_store
+          url = params[:url]
+          webpage_subjects = get_subjects_from_weburl(url)
           notebooks = note_store.listNotebooks
           contact = nil
           notebooks.each do |notebook|
