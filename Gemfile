@@ -20,6 +20,13 @@ gem 'jquery-rails'
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
+
+# Required for running rails server
+gem 'tzinfo-data'
+
+# Twitter Bootstrap
+gem 'bootstrap-sass'
+
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
 

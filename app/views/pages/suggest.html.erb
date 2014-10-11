@@ -1,0 +1,63 @@
+<div class="text-center marginbottom">
+	<h3>Found an interesting article? <br><small>See which of your contacts might also find it interesting so you can say hi and share it with them.</small></h3>
+</div>
+
+<div class="row">
+  <div class="col-lg-3"></div>
+	  <div class="col-lg-6">
+	    <div class="input-group">
+	      <input type="text" class="form-control" placeholer="Paste your article URL here">
+	      <span class="input-group-btn">
+	        <button class="btn btn-default" type="button">Go!</button>
+	      </span>
+	    </div>
+	    <h3 class="margintop text-center">Yay,<br>4 contacts might be interested in this article.<br>Get in touch!</h3>
+	    
+	    <table class="table table-striped margintop">
+		  <tr>
+		  	<td class="vertalign"> <img alt="Rails" src="/assets/Peter.jpg"/ height="30" alt="Edit Entry" class="imgsmall img-circle img-responsive" /></td>
+		    <td class="vertalign"><strong>Jill Smith</strong></td>
+		    <td class="vertalign">
+		    	<strong>
+			    	<%= mail_to "example@user.com", subject: "Interesting article", body: "Hi Example Recipient, how is it going? I just found this article and thought it might be interesting for you: www.examplearticle.com, all the best, Example Sender" do %>
+			    			<span class="glyphicon glyphicon-share"></span> Get in touch!
+			    		<% end %>
+		    	</strong>
+			</td>
+		  </tr>
+		  <tr>
+		  	<td  class="vertalign"> <img alt="Rails" src="/assets/Peter.jpg"/ height="30" alt="Edit Entry" class="imgsmall img-circle img-responsive" /></td>
+		    <td class="vertalign"><strong>Jill Smith</strong></td>
+		    <td class="vertalign">
+		    	<strong>
+			    	<%= mail_to "example@user.com", subject: "Interesting article", body: "Hi Example Recipient, how is it going? I just found this article and thought it might be interesting for you: www.examplearticle.com, all the best, Example Sender" do %>
+			    			<span class="glyphicon glyphicon-share"></span> Get in touch!
+			    		<% end %>
+		    	</strong>
+			</td>
+		  </tr>
+		  <tr>
+		  	<td  class="vertalign"> <img alt="Rails" src="/assets/Peter.jpg"/ height="30" alt="Edit Entry" class="imgsmall img-circle img-responsive" /></td>
+		    <td class="vertalign"><strong>Jill Smith</strong></td>
+		    <td class="vertalign">
+		    	<strong>
+			    	<%= mail_to "example@user.com", subject: "Interesting article", body: "Hi Example Recipient, how is it going? I just found this article and thought it might be interesting for you: www.examplearticle.com, all the best, Example Sender" do %>
+			    			<span class="glyphicon glyphicon-share"></span> Get in touch!
+			    		<% end %>
+		    	</strong>
+			</td>
+		  </tr>
+		  <tr>
+		  	<td  class="vertalign"> <img alt="Rails" src="/assets/Peter.jpg"/ height="30" alt="Edit Entry" class="imgsmall img-circle img-responsive" /></td>
+		    <td class="vertalign"><strong>Jill Smith</strong></td>
+		    <td class="vertalign">
+		    	<strong>
+			    	<%= mail_to "example@user.com", subject: "Interesting article", body: "Hi Example Recipient, how is it going? I just found this article and thought it might be interesting for you: www.examplearticle.com, all the best, Example Sender" do %>
+			    			<span class="glyphicon glyphicon-share"></span> Get in touch!
+			    		<% end %>
+		    	</strong>
+			</td>
+		  </tr>
+		</table>
+  </div>
+</div>
