@@ -1,0 +1,10 @@
+<h1>Info</h1>
+<% @suggested_people.each do |contact|%>
+<ul>
+<li><%= contact[:first_name] %></li>
+<li><%= contact[:last_name] %></li>
+<li><%= contact[:mail_adress] %></li>
+<li><%= contact[:profile_pic] %></li>
+<li><%= contact[:account_link] %></li>
+</ul>
+<% end %>
