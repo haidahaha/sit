@@ -14,6 +14,7 @@ class PagesController < ApplicationController
       if note_store
           url = params[:url]
           webpage_subjects = get_subjects_from_weburl(url)
+          
           notebooks = note_store.listNotebooks
           contact = nil
           notebooks.each do |notebook|
@@ -51,6 +52,11 @@ class PagesController < ApplicationController
                       note.tags.each do |tag|
                           tags << tag.name
                       end
+                      puts "#{webpage_subjects.join(", ")}"
+                      puts "#{tags.join(", ")}"
+                      matrix = WordCompare.compare_sets(webpage_subjects, tags)
+                      puts matrix
+                      puts "-------"
                       puts "#{name}"
                       puts "#{email}"
                       puts "#{profile_image}"
@@ -66,7 +72,7 @@ class PagesController < ApplicationController
           end
       else
         puts "There is a problem with the Internet here!"
-      end
+      end      
       redirect_to action: :suggest, suggestions: suggestions, url: url
   end
 
@@ -86,7 +92,7 @@ class PagesController < ApplicationController
       client = EvernoteOAuth::Client.new(token: developer_token)
       note_store = client.note_store
     rescue Exception => e
-      puts e.message
+      puts "Error with creating Note Store: #{e.message}"
       note_store = nil
     end
     return note_store
