@@ -8,6 +8,9 @@ class WordCompare
  def self.compare_sets (interests, topics)
     str1 = ""
     str2 = ""
+    #We can only calculate 5 interests for now.
+    interests = interests [0..4]
+    topics = topics[0..4]
     
     interests.each do |element|
        str1 += "&inset[]=#{CGI::escape(element)}"
@@ -16,7 +19,7 @@ class WordCompare
     topics.each do |element|
        str2 += "&inatr[]=#{CGI::escape(element)}"
     end
-    url = "http://www.mechanicalcinderella.com/index.php?#{str1[1..-1]}#{str2}&domena=#results"
+    url = "http://www.mechanicalcinderella.com/index.php?#{str1[1..-1].downcase}#{str2.downcase}&domena=#results"
     puts url
     page = Nokogiri::HTML(open(url))
     table = Array.new
@@ -39,25 +42,45 @@ class WordCompare
  end
  
  #returns number
- def self.is_relevant (matrix, n)
-    if n > matrix.column_size
-       n = matrix.column_size
+ def self.is_relevant (matrix, factor)
+    if factor > 1
+       facor = 1
     end
     row_mean = Array.new
 
     (matrix.row_vectors ).each do |row|
+      n = (row.size*factor).ceil
       row = row.sort()[0..n-1] #First n elements
-      row.del("10")
+      row.delete(10.0)
+      
       next if row.size == 0
       
-      row_mean << row.inject{ |sum, el| sum + (el==10)? 0:el }.to_f / row.size     
+      row_mean << row.inject{ |sum, el| sum + ((el==10) ? 0 : el) }.to_f / row.size     
     end
-    row_mean = row_mean.inject{ |sum, el| sum + el }.to_f / row_mean.size 
+    puts row_mean.size
+    if row_mean.size == 0
+      return 15
+    end
+      
+    return row_mean.inject{ |sum, el| sum + el }.to_f / row_mean.size 
  end
 end
+if __FILE__ == $0
 
-#arr1 = ["Inverse Relation","Robert Morris"]
-#arr2 = ["Hackzurich","Swisscom"]
+people = [
+          ["Inverse Relation", "Robert Morris" , "Victoria Cross" , "VC" , "Patrick Collison" , "YCombinator" , "Fireandforget"],
+          ["Cocoa", "Ruby On Rails", "Startup Chile", "TEDx", "International Development", "Sustainability Reporting", "Social Business", "Corporate Social", "Soft Commodities", "Cotton", "Coffee", "Sustainability Standards", "Fundraising", "Development Coorporation", "Meetup", "Collab", "Lausanne", "Solidaridad", "F"],
+          ["Ayn Al Arab", "USA", "United States", "Peoples Protection Units", "Halten Sør Trøndelag", "Sabah", "Staffan De Mistura", "Washington", "Seinen Manga", "CNN", "Ain", "CNN", "YPG", "Tatra", "Johns Hopkins University", "The New York Times", "UNO", "United Nations"],
+          ["budapest", "india", "london", "sap", "consulting", "business process", "IT strategy", "SAP Integration", "Retail", "Tally Weijl", "Pre-Sales", "Business Analysis", "ERP", "Process Consulting", "Business Consulting", "Supply chain management"]
+        ]
+autoload(:Aylien,"./aylien.rb")        
+hashtags = Aylien.get_hashtags("http://www.bostonglobe.com/opinion/editorials/2014/10/08/women-venture-capital-progress-but-not-enough/LpIjZSeaKLfyXxUXkveXvN/story.html")
+#Remove # from Hashtag and convert CamelCase to Space separated Nouns.
+hashtags = hashtags.map {|hashtag| hashtag[1..-1].gsub(/([a-z])([A-Z])/, '\1 \2')}
 
-#matr = WordCompare.compare_sets(arr1,arr2)
-#judge = WordCompare.is_relevant(matr,2)
+people.each do |interests| 
+  matr = WordCompare.compare_sets(interests,hashtags)
+  judge = WordCompare.is_relevant(matr,0.3)
+end
+
+end
