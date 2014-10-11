@@ -57,6 +57,8 @@ class PagesController < ApplicationController
                       matrix = WordCompare.compare_sets(webpage_subjects, tags)
                       puts matrix
                       puts "-------"
+                      puts WordCompare.is_relevant(matrix,2)
+                      puts "-------"
                       puts "#{name}"
                       puts "#{email}"
                       puts "#{profile_image}"
