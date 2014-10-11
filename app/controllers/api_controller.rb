@@ -20,28 +20,46 @@ class ApiController < ApplicationController
         notebooks = note_store.listNotebooks
         contact = nil
         notebooks.each do |notebook|
-            if notebook.name == "My Notebook"
+            if notebook.name == "Contacts"
                 contact = notebook
+                break
             end
         end
         if contact
             note_filter = Evernote::EDAM::NoteStore::NoteFilter.new
             note_filter.notebookGuid = contact.guid
+            note_filter.order = 2 # Evernote::EDAM::Type::NoteSortOrder.UPDATED
+            note_filter.ascending = false
             notes = note_store.findNotes(note_filter, 0, 100).notes
             notes.each do |note|
-                puts "#{note.title} | #{note.tagNames}"
-                #puts "#{note_store.getNoteContent(note.guid)}"
-                if note.resources
-                    note.resources.each do |resource|
-                        puts "#{resource.data.bodyHash.hex}"
+                begin
+                    begin
+                        content = note_store.getNoteContent(note.guid)
+                        hash_match = /<div style="[\S\s]+profile-image[\S\s]+?hash="([\w\d]+)"/.match(content)
+                        profile_image_hash = hash_match[1]
+                        resource = note_store.getResourceByHash(note.guid, profile_image_hash.unpack('a2'*(profile_image_hash.size/2)).collect {|i| i.hex.chr }.join, true, false, false)
+                        profile_image = "#{resource.guid}.#{resource.mime.split("/").last}"
+                        File.open(profile_image, "wb") do |f|
+                            f.write resource.data.body
+                        end
+                    rescue Exception => e
+                        puts e.message
                     end
+                    email_match = /href="mailto:(.*?)"/.match(content)
+                    email = email_match[1]
+                    name_match = /evernote:display-as;[\S\s]+?>(.*?)<\/span>/.match(content)
+                    name = name_match[1]
+                    tags = Array.new
+                    note.tags.each do |tag|
+                        tags << tag.name
+                    end
+                    puts "#{name}"
+                    puts "#{email}"
+                    puts "#{tags.join(", ")}"
+                rescue Exception => e
+                    puts e.message
                 end
             end
-            hash_func = Digest::MD5.new
-            dig = hash_func.digest("foo")
-            hexdig = hash_func.hexdigest("foo")
-            puts "#{dig} | #{hexdig} | #{hexdig.unpack('a2'*(hexdig.size/2)).collect {|i| i.hex.chr }.join}"
-
         else
             puts "cannot find Contacts notebook."
         end
@@ -50,9 +68,9 @@ class ApiController < ApplicationController
     private
 
     def get_note_store
-        #developer_token = "S=s1:U=8fa4f:E=15055172e4e:C=148fd660250:P=1cd:A=en-devtoken:V=2:H=b063080b9129f0348b1eb78ee194668b";
+        #developer_token = "S=s1:U=8fa63:E=1505644a850:C=148fe937a18:P=1cd:A=en-devtoken:V=2:H=a7b9d1fbe8f9e64782e855900369a0c6";
         #production
-        developer_token = "S=s93:U=9a681a:E=1505556ebde:C=148fda5beb8:P=1cd:A=en-devtoken:V=2:H=ed02fe3c29f1a6a4a36929c6ae15f490"
+        developer_token = "S=s499:U=509daaf:E=1505643f202:C=148fe92c280:P=1cd:A=en-devtoken:V=2:H=749f4fabcb59f550cb07a06f89e8a021"
         client = EvernoteOAuth::Client.new(token: developer_token)
         note_store = client.note_store
     end
