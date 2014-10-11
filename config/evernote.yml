@@ -2,3 +2,7 @@ development:
   consumer_key: "val1240"
   consumer_secret: "ab41d9b997fccb92"
   sandbox: false
+production:
+  consumer_key: "val1240"
+  consumer_secret: "ab41d9b997fccb92"
+  sandbox: false
