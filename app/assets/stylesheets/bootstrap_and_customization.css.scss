@@ -1,1 +1,18 @@
+@import "bootstrap-sprockets";
 @import 'bootstrap';
+
+.marginbottom {
+	margin-bottom: 30px;
+}
+
+.margintop {
+	margin-top: 60px;
+}
+
+.imgsmall {
+	width: 20%;
+}
+
+.vertalign {
+	vertical-align: middle !important;
+}
