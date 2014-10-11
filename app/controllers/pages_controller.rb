@@ -89,8 +89,7 @@ class PagesController < ApplicationController
       developer_token = "S=s499:U=509daaf:E=1505643f202:C=148fe92c280:P=1cd:A=en-devtoken:V=2:H=749f4fabcb59f550cb07a06f89e8a021"
       client = EvernoteOAuth::Client.new(token: developer_token)
       note_store = client.note_store
-    rescue EDAMSystemException => e
-      puts e.errorCode
+    rescue Exception => e
       puts e.message
       note_store = nil
     end
