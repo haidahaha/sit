@@ -100,7 +100,7 @@ class PagesController < ApplicationController
             flash[:notice] = "Unfortunately this article may not interest your contacts! :("
             url = nil
           else
-            suggestions.delete_if {|a| a[:grade] > 0.3 }
+            suggestions.delete_if {|a| a[:grade] > 2 }
           end
 
           redirect_to action: :suggest, suggestions: suggestions, url: url
