@@ -1,7 +1,6 @@
-A bookmarklet to share our page with your friends
 
 javascript:(function(){
-  url = 'http://127.0.0.1:3000/suggest?url='+
+  url = 'http://floating-escarpment-2553.herokuapp.com/suggest?url='+
   encodeURIComponent(window.location.href);
   
   op = function() {
@@ -16,4 +15,5 @@ javascript:(function(){
 
 Simpler bookmarklet
 
-javascript:location.href='http://127.0.0.1:3000/?url='+encodeURIComponent(location.href)
+javascript:location.href='http://floating-escarpment-2553.herokuapp.com/?url='+encodeURIComponent(location.href)
+
