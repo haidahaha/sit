@@ -91,7 +91,7 @@ class PagesController < ApplicationController
                       puts e.message
                   end
               end
-              suggestions.delete_if {|a| a[":grade"] < (maximum_similiar_tags - 2) }
+              suggestions.delete_if {|a| a[:grade] < (maximum_similiar_tags - 2) }
           else
               puts "cannot find Contacts notebook."
           end
