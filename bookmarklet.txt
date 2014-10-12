@@ -13,3 +13,7 @@ javascript:(function(){
   else { op();} 
 
 })();
+
+Simpler bookmarklet
+
+javascript:location.href='http://127.0.0.1:3000/?url='+encodeURIComponent(location.href)
