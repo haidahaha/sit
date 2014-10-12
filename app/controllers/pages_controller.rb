@@ -51,6 +51,8 @@ class PagesController < ApplicationController
               note_filter.ascending = false
               notes = note_store.findNotes(note_filter, 0, 100).notes
               puts "3: #{timing(Time.new)}"
+              
+              maximum_similiar_tags=0;
               notes.each do |note|
                   begin
                       begin
@@ -75,20 +77,21 @@ class PagesController < ApplicationController
                       tags = note_store.getNoteTagNames(note.guid)
                       puts "6: #{timing(Time.new)}"
                       puts "#{tags.join(", ")}"
-                      matrix = WordCompare.compare_sets(webpage_subjects, tags)
-                      puts matrix
-                      puts "-------"
-                      puts WordCompare.is_relevant(matrix,0.3)
+                      puts "#{webpage_subjects.join(", ")}"
+                      similarities = WordCompare.find_similar_elements(webpage_subjects, tags)
+                      maximum_similiar_tags = (similarities.length > maximum_similiar_tags)? similarities.length : maximum_similiar_tags
+                      
                       puts "-------"
                       puts "#{name}"
                       puts "#{email}"
                       puts "#{profile_image}"
                       puts "#{tags.join(", ")}"
-                      suggestions << {name: name, email: email, image: profile_image}
+                      suggestions << {grade: similarities.length, name: name, email: email, image: profile_image}
                   rescue Exception => e
                       puts e.message
                   end
               end
+              suggestions.delete_if {|a| a[:grade] < (maximum_similiar_tags - 2) }
           else
               puts "cannot find Contacts notebook."
           end
@@ -113,6 +116,7 @@ class PagesController < ApplicationController
   def get_subjects_from_weburl (url)
       hashtags = Aylien.get_hashtags(url)
       #Remove # from Hashtag and convert CamelCase to Space separated Nouns.
-      hashtags.map {|hashtag| hashtag[1..-1].gsub(/([a-z])([A-Z])/, '\1 \2')}
+      return hashtags.map { |hashtag| hashtag[1..-1].gsub(/([a-z])([A-Z])/, '\1 \2') }
   end
 end
+

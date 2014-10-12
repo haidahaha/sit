@@ -8,6 +8,7 @@ class WordCompare
  def self.compare_sets (interests, topics)
     str1 = ""
     str2 = ""
+
     #We can only calculate 5 interests for now.
     interests = interests [0..4]
     topics = topics[0..4]
@@ -48,7 +49,13 @@ class WordCompare
 
     return matrix
  end
-
+ 
+ def self.find_similar_elements (interests, topics)
+    interests = interests.collect{|x| x.gsub(/[-\s]+/, "").downcase}
+    topics = topics.collect{|x| x.gsub(/[-\s]+/, "").downcase}
+    return interests & topics
+ end
+ 
  #returns number
  def self.is_relevant (matrix, factor)
     if factor > 1
@@ -76,19 +83,20 @@ end
 if __FILE__ == $0
 
 people = [
-          ["Inverse Relation", "Robert Morris" , "Victoria Cross" , "VC" , "Patrick Collison" , "YCombinator" , "Fireandforget"],
+          ["Inverse Relation", "Robert Morris" , "Victoria Cross" , "Venture Capital" , "Patrick Collison" , "YCombinator" , "Fireandforget"],
           ["Cocoa", "Ruby On Rails", "Startup Chile", "TEDx", "International Development", "Sustainability Reporting", "Social Business", "Corporate Social", "Soft Commodities", "Cotton", "Coffee", "Sustainability Standards", "Fundraising", "Development Coorporation", "Meetup", "Collab", "Lausanne", "Solidaridad", "F"],
           ["Ayn Al Arab", "USA", "United States", "Peoples Protection Units", "Halten Sør Trøndelag", "Sabah", "Staffan De Mistura", "Washington", "Seinen Manga", "CNN", "Ain", "CNN", "YPG", "Tatra", "Johns Hopkins University", "The New York Times", "UNO", "United Nations"],
           ["budapest", "india", "london", "sap", "consulting", "business process", "IT strategy", "SAP Integration", "Retail", "Tally Weijl", "Pre-Sales", "Business Analysis", "ERP", "Process Consulting", "Business Consulting", "Supply chain management"]
         ]
-autoload(:Aylien,"./aylien.rb")
-hashtags = Aylien.get_hashtags("http://www.bostonglobe.com/opinion/editorials/2014/10/08/women-venture-capital-progress-but-not-enough/LpIjZSeaKLfyXxUXkveXvN/story.html")
+
+autoload(:Aylien,"./aylien.rb")        
+hashtags = Aylien.get_hashtags("http://techcrunch.com/2014/10/09/microsoft-promises-its-surface-project-is-here-to-stay/")
 #Remove # from Hashtag and convert CamelCase to Space separated Nouns.
 hashtags = hashtags.map {|hashtag| hashtag[1..-1].gsub(/([a-z])([A-Z])/, '\1 \2')}
+  puts "Hashtag: #{hashtags}"
+people.each do |interests| 
+  matr = WordCompare.find_similar_elements(interests, hashtags)
 
-people.each do |interests|
-  matr = WordCompare.compare_sets(interests,hashtags)
-  judge = WordCompare.is_relevant(matr,0.3)
 end
 
 end
