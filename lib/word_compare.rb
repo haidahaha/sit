@@ -24,26 +24,18 @@ class WordCompare
     puts url
     page = Nokogiri::HTML(open(url))
     table = Array.new
-    rows = page.xpath('//table/tbody/tr/td')
-    for row in rows
-        begin
-            t = row.content
-            case t
-            when "INF"
-                table.push("5")
-            when "NAN"
-                table.push("10")
-            when "no relevant data"
-                table.push("10")
-            else
-                table.push(t.to_f.to_s)
-            end
-        rescue Exception => e
-            puts e.message
-            puts "value: " + t
-            table.push("10")
-        end
-    end
+    (page.xpath("//td/text()")).each do |element| 
+      case element.text
+        when "INF"
+          table.push("5")
+        when "NAN"
+          table.push("10")  #TODO FIX - 10 is nil 
+        when "no relevant data"
+          table.push("10")  #TODO FIX     
+        else
+          table.push(element.text)
+      end
+    end 
 
     matrix = Matrix.build(topics.length, interests.length) {|row, col| table[(row+1)*interests.length+col+1].to_f}
 

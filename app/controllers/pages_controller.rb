@@ -52,7 +52,6 @@ class PagesController < ApplicationController
               notes = note_store.findNotes(note_filter, 0, 100).notes
               puts "3: #{timing(Time.new)}"
               
-              maximum_similiar_tags=0;
               notes.each do |note|
                   begin
                       begin
@@ -78,26 +77,31 @@ class PagesController < ApplicationController
                       puts "6: #{timing(Time.new)}"
                       puts "#{tags.join(", ")}"
                       puts "#{webpage_subjects.join(", ")}"
-                      similarities = WordCompare.find_similar_elements(webpage_subjects, tags)
-                      maximum_similiar_tags = (similarities.length > maximum_similiar_tags)? similarities.length : maximum_similiar_tags
-                      
+                      mat = WordCompare.compare_sets(webpage_subjects, tags)
+                      grade = WordCompare.is_relevant(mat, 0.3)
+                      puts "-------"
+                      puts "#{webpage_subjects.join(", ")}"
+                      puts mat
+                      puts "#{tags.join(", ")}"
                       puts "-------"
                       puts "#{name}"
                       puts "#{email}"
                       puts "#{profile_image}"
-                      puts "#{tags.join(", ")}"
-                      suggestions << {grade: similarities.length, name: name, email: email, image: profile_image}
+
+                      suggestions << {grade: grade, name: name, email: email, image: profile_image}
                   rescue Exception => e
                       puts e.message
                   end
               end
-              suggestions.delete_if {|a| a[:grade] < (maximum_similiar_tags - 2) }
+              suggestions.delete_if {|a| a[:grade] > 0.3 }
           else
               puts "cannot find Contacts notebook."
           end
           if suggestions.blank?
             flash[:notice] = "Unfortunately this article may not interest your contacts! :("
+            url = nil
           end
+          
           redirect_to action: :suggest, suggestions: suggestions, url: url
       else
         puts "There is a problem with the Internet here!"
