@@ -39,6 +39,7 @@ class WordCompare
 
     matrix = Matrix.build(topics.length, interests.length) {|row, col| table[(row+1)*interests.length+col+1].to_f}
 
+    #transpose(matrix)
     return matrix
  end
  
