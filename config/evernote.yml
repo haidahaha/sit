@@ -6,3 +6,11 @@ production:
   consumer_key: "val1240"
   consumer_secret: "ab41d9b997fccb92"
   sandbox: false
+# development:
+#     consumer_key: "iu1nguoi"
+#     consumer_secret: "099af283ba14eb0c"
+#     sandbox: true
+# production:
+#     consumer_key: "iu1nguoi"
+#     consumer_secret: "099af283ba14eb0c"
+#     sandbox: false

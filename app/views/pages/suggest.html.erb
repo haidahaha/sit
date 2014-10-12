@@ -1,38 +1,53 @@
-<div class="text-center marginbottom">
-	<h3>Found an interesting article? <br><small>See which of your contacts might also find it interesting so you can say hi and share it with them.</small></h3>
+<div class="jumbotron">
+	<div class="container text-center">
+		<h1 class="white"><strong>Keeping in touch just got simple</strong></h1>
+		<div class="marginbottom">
+			<h3 class="white">Found an interesting article?<br>See which of your contacts might also find it interesting so you can say hi and share it with them.</h3>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col-lg-3"></div>
+			<div class="col-lg-6 text-center">
+				<form role="form" class="" method="get" action="<%= url_for action: :login_dev, controller: :pages %>">
+					<% if authtoken %>
+						<div class="input-group input-group-lg">
+							<input type="text" class="form-control" placeholder="Paste your article URL here" name="url" value="<%=@url %>">
+							<span class="input-group-btn">
+									<button class="btn btn-default" type="submit">Go!</button>
+							</span>
+						</div>
+					<% else %>
+						<button type="submit" class="btn btn-success btn-lg">Login to Evernote!</button>
+					<% end %>
+					<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
-<div class="row">
-  <div class="col-lg-3"></div>
-	  <div class="col-lg-6">
-	    <form role="form" class="" method="get" action="<%= url_for action: :login_dev, controller: :pages %>">
-		    <div class="input-group">
-		      <input type="text" class="form-control" placeholer="Paste your article URL here" name="url" value="<%=@url %>">
-		      <span class="input-group-btn">
-		        <button class="btn btn-default" type="submit">Go!</button>
-		      </span>
-		    </div>
-		 <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
-		 </form>
+<div class="container">
+	 <% if @suggestions %>
+	 	<div id="result"></div>
+	    <h3 class="text-center">Yay, <%= @suggestions.count %> contacts might be interested in this article.<br>Get in touch!</h3>
 
-		 <% if @suggestions %>
-		    <h3 class="margintop text-center">Yay,<br><%= @suggestions.count %> contacts might be interested in this article.<br>Get in touch!</h3>
-
-		    <table class="table table-striped margintop">
-			    <% @suggestions.each do |suggestion| %>
-				  <tr>
-				  	<td class="vertalign"><img alt="Rails" src='<%= suggestion[:image] %>' height="30" alt="Edit Entry" class="imgsmall img-circle img-responsive" /></td>
-				    <td class="vertalign"><strong><%= suggestion[:name] %></strong></td>
-				    <td class="vertalign">
-				    	<strong>
-					    	<%= mail_to suggestion[:email], subject: "Interesting article", body: "Hi #{suggestion[:name]}, how is it going? I just found this article and thought it might be interesting for you: #{@url}, all the best!" do %>
-					    			<span class="glyphicon glyphicon-share"></span> Get in touch!
-					    	<% end %>
-				    	</strong>
-					</td>
-				  </tr>
-			    <% end %>
-			</table>
-		<% end %>
-  </div>
+	    <table class="table table-striped margintop">
+		    <% @suggestions.each do |suggestion| %>
+			  <tr>
+			  	<td class="vertalign"><img alt="Rails" src='<%= suggestion[:image] %>' height="10" alt="Edit Entry" class="imgsmall img-circle img-responsive" /></td>
+			    <td class="vertalign"><strong><%= suggestion[:name] %></strong></td>
+			    <td class="vertalign">
+			    	<strong>
+				    	<%= mail_to suggestion[:email], subject: "Interesting article", body: "SPICE UP YOUR RECOMMENDATION WITH A PERSONAL MESSAGE: #{@url}" do %>
+				    			<span class="glyphicon glyphicon-share"></span> Get in touch!
+				    	<% end %>
+			    	</strong>
+				</td>
+			  </tr>
+		   <% end %>
+		</table>
+	<% end %>
 </div>
+
