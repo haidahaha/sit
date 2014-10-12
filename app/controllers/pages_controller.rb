@@ -93,7 +93,7 @@ class PagesController < ApplicationController
                       puts e.message
                   end
               end
-              suggestions.delete_if {|a| a[:grade] > 0.3 }
+              suggestions.delete_if {|a| a[:grade] > 2 }
           else
               puts "cannot find Contacts notebook."
           end
