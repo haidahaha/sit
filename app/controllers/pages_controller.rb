@@ -91,12 +91,13 @@ class PagesController < ApplicationController
                       puts e.message
                   end
               end
-              suggestions.delete_if {|a| a[":grade"] < (maximum_similiar_tags - 2) }
+              suggestions.delete_if {|a| (a[:grade] < (maximum_similiar_tags - 2) or a[:grade] == 0) }
           else
               puts "cannot find Contacts notebook."
           end
           if suggestions.blank?
             flash[:notice] = "Unfortunately this article may not interest your contacts! :("
+            url = nil;
           end
           redirect_to action: :suggest, suggestions: suggestions, url: url
       else
