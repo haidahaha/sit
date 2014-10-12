@@ -1,15 +1,1 @@
-A bookmarklet to share our page with your friends
 
-javascript:(function(){
-  url = 'http://127.0.0.1/suggest?url='+
-  encodeURIComponent(window.location.href);
-  
-  op = function() {
-    if(!window.open(url, "sit",'location=1,scrollbars=0,toolbar=0,width=400,height=600')){
-      location.href=url;
-    }
-  }    
-  if(/Firefox/.test(navigator.userAgent)) {setTimeout(op, 0);} 
-  else { op();} 
-
-})();

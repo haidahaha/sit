@@ -1,3 +1,6 @@
+$btn-default-bg: #FA5100;
+$btn-default-color: white;
+
 @import "bootstrap-sprockets";
 @import 'bootstrap';
 
@@ -6,7 +9,7 @@
 }
 
 .margintop {
-	margin-top: 30px;
+	margin-top: 50px;
 }
 
 .imgsmall {
@@ -18,17 +21,18 @@
 }
 
 .jumbotron{
-    background: url("https://dl.dropboxusercontent.com/u/6677368/DeathtoStock_Simplify10.jpg") no-repeat center center; 
+    background: url("https://dl.dropboxusercontent.com/u/6677368/DeathtoStock_Simplify10schmall3.jpg") no-repeat center center; 
     -webkit-background-size: 100%;
     -moz-background-size: 100%;
     -o-background-size: 100%;
     background-size: 100%;
-    height: 400px;
+    height: 600px;
     margin-top: 0px;
 }
 
 .navbar {
     margin-bottom: 0px;
+    height: 75px;
 }
 
 .white {
@@ -39,3 +43,22 @@
 .jumbotron ha {
     color: white;
 }
+
+.marginleft {
+    margin-left: 60px;
+}
+
+.horizontalalign {
+    horizontal-align: middle !important;
+}
+
+.paddingleft {
+    padding-left: 30px;
+}
+
+.photo {
+    width: 70px !important;
+    height: 70px !important;
+    margin-left: 30px;
+}
+

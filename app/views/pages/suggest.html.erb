@@ -1,7 +1,7 @@
 <div class="jumbotron">
 	<div class="container">
-		<h1 class="white"><strong>Keeping in touch just got simple</strong></h1>
-		<div class="text-center marginbottom">
+		<h1 class="white margintop marginbottom"><strong>Keeping in touch just got easy</strong></h1>
+		<div class="text-center marginbottom margintop">
 			<h3 class="white">Found an interesting article?<br>See which of your contacts might also find it interesting so you can say hi and share it with them.</h3>
 		</div>
 	</div>
@@ -25,24 +25,29 @@
 </div>
 		
 <div class="container">
-	 <% if @suggestions %>
-	    <h3 class="text-center">Yay, <%= @suggestions.count %> contacts might be interested in this article.<br>Get in touch!</h3>
+	<div class="row">
+		<div class="col-lg-2"></div>
+			<div class="col-lg-7">
+	 				<% if @suggestions %>
+	    				<h2 class="text-center"><strong>Yay! <%= @suggestions.count %> contacts might be interested in this article.<br>Get in touch!</strong></h2>
 
-	    <table class="table table-striped margintop">
-		    <% @suggestions.each do |suggestion| %>
-			  <tr>
-			  	<td class="vertalign"><img alt="Rails" src='<%= suggestion[:image] %>' height="10" alt="Edit Entry" class="imgsmall img-circle img-responsive" /></td>
-			    <td class="vertalign"><strong><%= suggestion[:name] %></strong></td>
-			    <td class="vertalign">
-			    	<strong>
-				    	<%= mail_to suggestion[:email], subject: "Interesting article", body: "SPICE UP YOUR RECOMMENDATION WITH A PERSONAL MESSAGE: #{@url}" do %>
-				    			<span class="glyphicon glyphicon-share"></span> Get in touch!
-				    	<% end %>
-			    	</strong>
-				</td>
-			  </tr>
-		   <% end %>
-		</table>
-	<% end %>
+			   			 <table class="table table-striped margintop">
+				    		<% @suggestions.each do |suggestion| %>
+					  	<tr>
+					  		<td class="vertalign col-xs-3"><img alt="Rails" src='<%= suggestion[:image] %>'height: "70px" alt="Edit Entry" class="img-circle photo" /></td>
+					   		<td class="vertalign col-sx-2"><h4 class="marginleft"><%= suggestion[:name] %></h4></td>
+					    	<td class="vertalign col-sx-2">
+					    		<strong>
+						   			<%= mail_to suggestion[:email], subject: "Interesting article", body: "SPICE UP YOUR RECOMMENDATION WITH A PERSONAL MESSAGE: #{@url}" do %>
+						   				<h4><span class="glyphicon glyphicon-share"></span> Get in touch!</h4>
+						   			<% end %>
+					    		</strong>
+							</td>
+					  </tr>
+				   <% end %>
+				</table>
+			<% end %>
+		</div>
+	</div>
 </div>
 
