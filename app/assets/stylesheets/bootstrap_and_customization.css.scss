@@ -1,3 +1,5 @@
+$btn-default-bg:#FA5100;
+$btn-default-color:white;
 @import "bootstrap-sprockets";
 @import 'bootstrap';
 
@@ -18,7 +20,7 @@
 }
 
 .jumbotron{
-    background: url("https://dl.dropboxusercontent.com/u/6677368/DeathtoStock_Simplify10.jpg") no-repeat center center; 
+    background: url("https://dl.dropboxusercontent.com/u/6677368/DeathtoStock_Simplify10.jpg") no-repeat center center;
     -webkit-background-size: 100%;
     -moz-background-size: 100%;
     -o-background-size: 100%;

@@ -51,7 +51,7 @@ class PagesController < ApplicationController
               note_filter.ascending = false
               notes = note_store.findNotes(note_filter, 0, 100).notes
               puts "3: #{timing(Time.new)}"
-              
+
               notes.each do |note|
                   begin
                       begin
@@ -93,15 +93,16 @@ class PagesController < ApplicationController
                       puts e.message
                   end
               end
-              suggestions.delete_if {|a| a[:grade] > 0.3 }
           else
               puts "cannot find Contacts notebook."
           end
           if suggestions.blank?
             flash[:notice] = "Unfortunately this article may not interest your contacts! :("
             url = nil
+          else
+            suggestions.delete_if {|a| a[:grade] > 0.3 }
           end
-          
+
           redirect_to action: :suggest, suggestions: suggestions, url: url
       else
         puts "There is a problem with the Internet here!"
